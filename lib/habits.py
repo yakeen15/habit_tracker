@@ -9,3 +9,10 @@ class Habit:
         today = datetime.now().strftime("%Y-%m-%d")
         if today not in self.days:
             self.days.append(today)
+
+    def uncheck(self):
+        today = datetime.now().strftime("%Y-%m-%d")
+        if today in self.days:
+            self.days.remove(today)
+    
+    

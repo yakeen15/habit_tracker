@@ -5,6 +5,8 @@ class Habit:
     def __init__(self, name):
         self.name = name
         self.days = []
+        self.max_streak = 0
+        self.current_streak = 0
 
     def check(self):
         today = datetime.now().strftime("%Y-%m-%d")
@@ -19,6 +21,27 @@ class Habit:
     def status(self, date = datetime.now().strftime("%Y-%m-%d")): 
         return date in self.days
     
+    def streak(self):
+        dates = [datetime.strptime(date, "%Y-%m-%d") for date in self.days]
+        max_count = self.max_streak
+        if self.days:
+            counter = 1
+            if max_count<1:
+                max_count=1
+        else:
+            counter = 0
+        for i in range(1, len(self.days)):
+            if dates[i] - dates[i-1] == timedelta(days=1):
+                counter = counter+1
+                max_count = max(max_count, counter)
+            else:
+                if self.days:
+                    counter = 1
+                else:
+                    counter = 0
+        self.max_streak = max_count
+        self.current_streak = counter
+
 
 class Tracker:
     def __init__(self):
@@ -62,4 +85,11 @@ class Tracker:
             if habit.status(date):
                 stat = "done"
             msg = msg + f"{name}\t:\t{stat}\n"
+        return msg
+    
+    def show_streaks(self):
+        msg = f"Streak data\n"
+        for name, habit in self.habits.items():
+            habit.streak()
+            msg = msg+f"{name}\tCurrent Streak:\t{habit.current_streak}\tMax Streak:\t{habit.max_streak}\n"
         return msg

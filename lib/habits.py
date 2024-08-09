@@ -55,7 +55,7 @@ class Tracker:
         except FileNotFoundError:
             pass
 
-    def list_day(self, date = datetime.now().strftime("%Y-%m-%d")):
+    def habit_data(self, date = datetime.now().strftime("%Y-%m-%d")):
         msg = f"{date}\n"
         for name, habit in self.habits.items():
             stat = "not done"

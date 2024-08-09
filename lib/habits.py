@@ -16,9 +16,8 @@ class Habit:
         if today in self.days:
             self.days.remove(today)
     
-    def status(self):
-        today = datetime.now().strftime("%Y-%m-%d")
-        return today in self.days
+    def status(self, date = datetime.now().strftime("%Y-%m-%d")): 
+        return date in self.days
     
 
 class Tracker:
@@ -55,3 +54,12 @@ class Tracker:
                 self.habits[name].days = [datetime.strptime(date, "%Y-%m-%d").date() for date in dates]
         except FileNotFoundError:
             pass
+
+    def list_day(self, date = datetime.now().strftime("%Y-%m-%d")):
+        msg = f"{date}\n"
+        for name, habit in self.habits.items():
+            stat = "not done"
+            if habit.status(date):
+                stat = "done"
+            msg = msg + f"{name}\t:\t{stat}\n"
+        return msg

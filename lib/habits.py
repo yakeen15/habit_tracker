@@ -48,12 +48,18 @@ class Tracker:
         self.habits = {}
 
     def add_habit(self, name):
+        stat = 0
         if name not in self.habits:
             self.habits[name] = Habit(name)
+            stat = 1
+        return stat
 
     def remove_habit(self, name):
+        stat = 0
         if name in self.habits:
             del self.habits[name]
+            stat = 1
+        return stat
 
     def check(self, name):
         if name in self.habits:
@@ -78,7 +84,7 @@ class Tracker:
         except FileNotFoundError:
             pass
 
-    def habit_data(self, date = datetime.now().strftime("%Y-%m-%d")):
+    def completion(self, date = datetime.now().strftime("%Y-%m-%d")):
         msg = f"{date}\n"
         for name, habit in self.habits.items():
             stat = "not done"

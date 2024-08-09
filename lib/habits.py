@@ -45,13 +45,13 @@ class Tracker:
         with open(filename, 'w') as file:
             json.dump(data, file, default=str)
 
-    def load_data(self, filename='habits_data.json'):
+    def load_data(self, filename='habit_data.json'):
         try:
             with open(filename, 'r') as file:
                 data = json.load(file)
             for name, dates in data.items():
-                self.habits[name] = name
-                self.habits[name].days = [datetime.strptime(date, "%Y-%m-%d").date() for date in dates]
+                self.habits[name] = Habit(name)
+                self.habits[name].days = dates
         except FileNotFoundError:
             pass
 
